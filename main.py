@@ -30,7 +30,7 @@ def login():
     scope = 'user-read-private user-read-email user-top-read'
 
     params ={
-        'client_id' :config.CLIENT_ID,
+        'client_id' : config.CLIENT_ID,
         'response_type': 'code',
         'scope': scope,
         'redirect_uri' : REDIRECT_URI,
