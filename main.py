@@ -1,5 +1,5 @@
 from datetime import datetime, timedelta
-from flask import Flask, redirect, request, jsonify, session
+from flask import Flask, redirect, request, jsonify, session, render_template
 import requests
 import urllib.parse
 import json
@@ -18,7 +18,7 @@ API_BASE_URL = 'https://api.spotify.com/v1/'
 # root
 @app.route('/')
 def index():
-    return "Welcome to my spotify app <a href='/login'> Login with Spotify </a>"
+    return render_template("index.html")
 
 
 @app.route('/login')
