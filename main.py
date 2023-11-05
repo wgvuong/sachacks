@@ -3,6 +3,7 @@ from flask import Flask, redirect, request, jsonify, session, render_template
 import requests
 import urllib.parse
 import json
+import os
 
 CLIENT_ID = "df434140a3534ccd96cd05cc1c0fde82"
 CLIENT_SECRET = "647ad0bebb6042b48c0f82aaf02be283"
@@ -14,6 +15,10 @@ REDIRECT_URI ='http://localhost:5000/callback'
 AUTH_URL = 'https://accounts.spotify.com/authorize'
 TOKEN_URL = 'https://accounts.spotify.com/api/token'
 API_BASE_URL = 'https://api.spotify.com/v1/'
+
+SMISKI_FOLDER = os.path.join('static', 'smiski_photo')
+app.config['UPLOAD_FOLDER'] = SMISKI_FOLDER
+
 
 ids = []
 
@@ -57,7 +62,7 @@ def callback():
         session['refresh_token'] = token_info['refresh_token']
         session['expires_at'] =  datetime.now().timestamp() + token_info['expires_in']
         # return redirect('/results')    
-        return redirect('/top') 
+        return redirect('/smiski') 
 
 @app.route('/results')
 def get_playlist():
@@ -76,7 +81,7 @@ def get_playlist():
 
     return jsonify(playlists)
 
-@app.route('/top')
+@app.route('/smiski')
 def get_top_tracks():
     if 'access_token' not in session:
         return redirect('/login')
@@ -119,21 +124,29 @@ def get_top_tracks():
     
     match personality:
         case 'acousticness':
-            return render_template("results.html", image_path="")
+            full_filename = os.path.join(app.config['UPLOAD_FOLDER'], 'acousticness.jpg')
+            return render_template("results.html", image_path=full_filename)
         case 'danceability':
-            return render_template("results.html", image_path="")
+            full_filename = os.path.join(app.config['UPLOAD_FOLDER'], 'danceability.jpg')
+            return render_template("results.html", image_path=full_filename)
         case 'energy':
-            return render_template("results.html", image_path="")
+            full_filename = os.path.join(app.config['UPLOAD_FOLDER'], 'energy.png')
+            return render_template("results.html", image_path=full_filename)
         case 'instrumentalness':
-            return render_template("results.html", image_path="")
+            full_filename = os.path.join(app.config['UPLOAD_FOLDER'], 'instrumental.png')
+            return render_template("results.html", image_path=full_filename)
         case 'liveness':
-            return render_template("results.html", image_path="")
+            full_filename = os.path.join(app.config['UPLOAD_FOLDER'], 'liveness.jpg')
+            return render_template("results.html", image_path=full_filename)
         case 'loudness':
-            return render_template("results.html", image_path="")
+            full_filename = os.path.join(app.config['UPLOAD_FOLDER'], 'loudness.jpg')
+            return render_template("results.html", image_path=full_filename)
         case 'speechiness':
-            return render_template("results.html", image_path="")
+            full_filename = os.path.join(app.config['UPLOAD_FOLDER'], 'speechiness.jpg')
+            return render_template("results.html", image_path=full_filename)
         case 'valence':
-            return render_template("results.html", image_path="")
+            full_filename = os.path.join(app.config['UPLOAD_FOLDER'], 'valence.jpg')
+            return render_template("results.html", image_path=full_filename)
 
 @app.route('/refresh-token')
 def refresh_token():
