@@ -1,5 +1,5 @@
 from datetime import datetime
-from flask import Flask, redirect, request, jsonify, session
+from flask import Flask, redirect, request, jsonify, session, render_template
 import requests
 import urllib.parse
 import json
@@ -20,7 +20,7 @@ ids = []
 # root
 @app.route('/')
 def index():
-    return "Welcome to my spotify app <a href='/login'> Login with Spotify </a>"
+    return render_template("index.html")
 
 
 @app.route('/login')
