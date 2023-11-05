@@ -1,35 +1,37 @@
-from datetime import datetime, timedelta
-from flask import Flask, redirect, request, jsonify, session, render_template
+from datetime import datetime
+from flask import Flask, redirect, request, jsonify, session
 import requests
 import urllib.parse
 import json
 
-CLIENT_ID = "df434140a3534ccd96cd05cc1c0fde82"
-CLIENT_SECRET = "647ad0bebb6042b48c0f82aaf02be283"
+CLIENT_ID = "07be14574d2f46af9d2ae634d535e5e3"
+CLIENT_SECRET = "efb97abf85834afbb323179a9f53d401"
 
 app = Flask(__name__)
-app.secret_key = '36zRc2jMKTWGM1Fg6xi1g44912932496fququBL5vX'
+app.secret_key = '36zRc2jMKTWGM1Fg6xi1g6fququBL5vX'
 
 REDIRECT_URI ='http://localhost:5000/callback'
 AUTH_URL = 'https://accounts.spotify.com/authorize'
 TOKEN_URL = 'https://accounts.spotify.com/api/token'
 API_BASE_URL = 'https://api.spotify.com/v1/'
 
+ids = []
+
 # root
 @app.route('/')
 def index():
-    return render_template("index.html")
+    return "Welcome to my spotify app <a href='/login'> Login with Spotify </a>"
 
 
 @app.route('/login')
 def login():
-    scope ='user-read-private user-read-email user-top-read'
+    scope = 'user-read-private user-read-email user-top-read'
 
-    params = {
+    params ={
         'client_id' :CLIENT_ID,
         'response_type': 'code',
         'scope': scope,
-        'redirect_uri': REDIRECT_URI,
+        'redirect_uri' : REDIRECT_URI,
         'show_dialog': True
     }
 
@@ -55,10 +57,28 @@ def callback():
         session['access_token'] = token_info['access_token']
         session['refresh_token'] = token_info['refresh_token']
         session['expires_at'] =  datetime.now().timestamp() + token_info['expires_in']
-        return redirect('/playlists')    
+        # return redirect('/playlists')    
+        return redirect('/top') 
 
 @app.route('/playlists')
 def get_playlist():
+    if 'access_token' not in session:
+        return redirect('/login')
+    
+    if datetime.now().timestamp() > session['expires_at']:
+        return redirect('/refresh-token')
+    
+    headers = {
+        'Authorization' : f"Bearer {session['access_token']}"
+    }
+
+    response = requests.get(API_BASE_URL + 'me/playlists', headers=headers)
+    playlists = response.json()
+
+    return jsonify(playlists)
+
+@app.route('/top')
+def get_top_tracks():
     if 'access_token' not in session:
         return redirect('/login')
     
@@ -80,8 +100,23 @@ def get_playlist():
     song_response = requests.get("https://api.spotify.com/v1/audio-features?ids=" + id_string, headers=headers)
     song_data = song_response.json()
 
-    return jsonify(song_data)
+    traits = {'acousticness': 0.0, 
+              'danceability': 0.0, 
+              'energy': 0.0, 
+              'instrumentalness': 0.0, 
+              'liveness': 0.0, 
+              'loudness': 0.0,
+              'speechiness': 0.0, 
+              'tempo': 0.0, 
+              'valence': 0.0
+            }
+    
+    for idx, feature in enumerate(song_data['audio_features']):
+        for key in traits:
+            traits[key] += feature[key]
 
+    return json.dumps(traits)
+    # return jsonify(song_data)
 
 @app.route('/refresh-token')
 def refresh_token():
