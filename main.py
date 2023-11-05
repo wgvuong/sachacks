@@ -120,31 +120,47 @@ def get_top_tracks():
     traits['loudness'] = (1 - (traits['loudness']) / 60)*0.75 #nerfed
     personality = max(traits, key=traits.get)
     
-    match personality:
+ match personality:
         case 'acousticness':
             full_filename = os.path.join(app.config['UPLOAD_FOLDER'], 'acousticness.jpg')
-            return render_template("results.html", image_path=full_filename)
+            name_path = "Acoustic Harmony Maven"
+            paragraph_path = "Reflects a personality associated with tracks having high acousticness, suggesting a preference for more acoustic and unplugged sounds"
+            return render_template("results.html", name_path = name_path, paragraph_path = paragraph_path, image_path=full_filename)
         case 'danceability':
             full_filename = os.path.join(app.config['UPLOAD_FOLDER'], 'danceability.jpg')
-            return render_template("results.html", image_path=full_filename)
+            name_path = "Dancefloor Dynamo"
+            paragraph_path = "Represents a personality linked to high dancability, indicating a love for energetic and dance-worthy tracks"
+            return render_template("results.html", name_path = name_path, paragraph_path = paragraph_path, image_path=full_filename)
         case 'energy':
             full_filename = os.path.join(app.config['UPLOAD_FOLDER'], 'energy.png')
-            return render_template("results.html", image_path=full_filename)
+            name_path = "Energetic Explorer"
+            paragraph_path = "Encompasses a personality associated with high energy tracks, showcasing a preference for lively and dynamic music"
+            return render_template("results.html", name_path = name_path, paragraph_path = paragraph_path, image_path=full_filename)
         case 'instrumentalness':
             full_filename = os.path.join(app.config['UPLOAD_FOLDER'], 'instrumental.png')
-            return render_template("results.html", image_path=full_filename)
+            name_path = "Instrumental Virtuoso"
+            paragraph_path = "Reflects a personality drawn to instrumental richness, as indicated by high instrumentalness values"
+            return render_template("results.html", name_path = name_path, paragraph_path = paragraph_path, image_path=full_filename)
         case 'liveness':
             full_filename = os.path.join(app.config['UPLOAD_FOLDER'], 'liveness.jpg')
-            return render_template("results.html", image_path=full_filename)
+            name_path = "Live Performance Enthusiast"
+            paragraph_path = "Captures a personality that enjoys the authenticity of live performances, with a focus on high liveness in tracks"
+            return render_template("results.html", name_path = name_path, paragraph_path = paragraph_path, image_path=full_filename)
         case 'loudness':
             full_filename = os.path.join(app.config['UPLOAD_FOLDER'], 'loudness.jpg')
-            return render_template("results.html", image_path=full_filename)
+            name_path = "Sonic Dynamo"
+            paragraph_path = "Represents a personality inclined towards louder tracks, embracing music with a bold and impactful sound"
+            return render_template("results.html", name_path = name_path, paragraph_path = paragraph_path, image_path=full_filename)
         case 'speechiness':
             full_filename = os.path.join(app.config['UPLOAD_FOLDER'], 'speechiness.jpg')
-            return render_template("results.html", image_path=full_filename)
+            name_path = "Verbal Artisan"
+            paragraph_path = "Encompasses a personality associated with high speechiness, suggesting a preference for tracks with prominent vocals and storytelling elements"
+            return render_template("results.html", name_path = name_path, paragraph_path = paragraph_path, image_path=full_filename)
         case 'valence':
             full_filename = os.path.join(app.config['UPLOAD_FOLDER'], 'valence.jpg')
-            return render_template("results.html", image_path=full_filename)
+            name_path = "Joyful Vibes Curator"
+            paragraph_path = "Reflects a personality that gravitates towards tracks with high valence, indicating a preference for positive and joyful music"
+            return render_template("results.html", name_path = name_path, paragraph_path = paragraph_path, image_path=full_filename)
 
 @app.route('/refresh-token')
 def refresh_token():
