@@ -1,0 +1,130 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap');
+/** Font Styling **/
+p {
+  font-family: "Poppins", sans-serif !important;
+  font-size: 20px;
+  font-weight: normal;
+  color: rgba(0, 0, 0, 0.60);
+}
+
+h1{
+  font-family: "Poppins", sans-serif !important;
+  font-size: 50px !important;
+  font-weight: bold;
+}
+
+h2{
+    color: rgba(0, 0, 0, 0.60) !important;
+}
+
+h3{
+  font-family: "Crimson Text", sans-serif !important;
+  font-size: 18px !important;
+}
+
+ol {
+    font-size: 20px;
+    color: rgba(0, 0, 0, 0.60) !important;
+}
+/** Font Styling **/
+
+
+/** Image **/
+.img-content{
+    padding: 40px;
+    width: 100%;
+    height: 630px;
+}
+
+.results-img{
+    height:550px; 
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+}
+
+
+/** Footer **/
+.footer{
+    background-color: #060606;
+    padding:30px 0px;
+    text-align:center;
+    height:200px;
+}
+  
+/* Clear floats after the columns */
+.f-row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+  
+.footer .f-row{
+  width:100%;
+  margin:1% 0%;
+  padding:0.6% 0%;
+  color:rgba(251, 252, 253, 0.94);
+  font-size:20px;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-family: Poppins;
+}
+    
+.footer .f-row a{
+  text-decoration:none;
+  color:rgba(251, 252, 253, 0.94);
+  transition: all 0.3s ease 0s;
+}
+
+.footer .f-row a:hover{
+  color: #87a8e6 !important;;
+}
+    
+.footer .f-row ul{
+  width:100%;
+}
+    
+.footer .f-row ul li{
+  display:inline-block;
+  margin:0px 30px;
+}
+
+.footer .f-row a i{
+  font-size:32px;
+  margin:0% 1%;
+}
+    
+@media (max-width:720px){
+    .img-content{
+        padding: 40px;
+        width: 100%;
+        height: 430px;
+    }
+    .results-img{
+        height:350px; 
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 50%;
+    }  
+  .footer{
+    text-align:left;
+    padding:5%;
+    height: 230px;
+  }
+  .footer .f-row ul li{
+    display:block;
+    margin:10px 0px;
+    text-align:left;
+  }
+  .footer .f-row a i{
+    margin:0% 3%;
+  }
+
+  #background-graphic{
+    top: 1100px;
+  }
+}
+/** Footer **/
