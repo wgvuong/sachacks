@@ -4,9 +4,7 @@ import requests
 import urllib.parse
 import json
 import os
-
-CLIENT_ID = "df434140a3534ccd96cd05cc1c0fde82"
-CLIENT_SECRET = "647ad0bebb6042b48c0f82aaf02be283"
+import config
 
 app = Flask(__name__)
 app.secret_key = '36zRc2jMKTWGM1Fg6xi1g6fququBL5vX'
@@ -32,7 +30,7 @@ def login():
     scope = 'user-read-private user-read-email user-top-read'
 
     params ={
-        'client_id' :CLIENT_ID,
+        'client_id' :config.CLIENT_ID,
         'response_type': 'code',
         'scope': scope,
         'redirect_uri' : REDIRECT_URI,
@@ -52,8 +50,8 @@ def callback():
             'code' : request.args['code'],
             'grant_type' : 'authorization_code',
             'redirect_uri' : REDIRECT_URI,
-            'client_id': CLIENT_ID,
-            'client_secret' : CLIENT_SECRET
+            'client_id': config.CLIENT_ID,
+            'client_secret' : config.CLIENT_SECRET
         }
         response = requests.post(TOKEN_URL, data=req_body)      
         token_info = response.json()
@@ -157,8 +155,8 @@ def refresh_token():
         req_body = {
             'grant_type' : 'refresh_token',
             'refresh_token' : session['refresh_token'],
-            'client_id': CLIENT_ID,
-            'client_secret' : CLIENT_SECRET
+            'client_id': config.CLIENT_ID,
+            'client_secret' : config.CLIENT_SECRET
         }
 
         response = requests.post(TOKEN_URL, data=req_body)
