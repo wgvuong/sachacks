@@ -1,17 +1,18 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 from flask import Flask, redirect, request, jsonify, session
 import requests
 import urllib.parse
+import json
 
-CLIENT_ID = "5b333ffe3af944b390112ecfdf577600"
-CLIENT_SECRET = "9e2a183f3d8c448aa53779d8bc52ac1b"
+CLIENT_ID = "df434140a3534ccd96cd05cc1c0fde82"
+CLIENT_SECRET = "647ad0bebb6042b48c0f82aaf02be283"
 
 app = Flask(__name__)
-app.secret_key = '36zRc2jMKTWGM1Fg6xi1g6fququBL5vX'
+app.secret_key = '36zRc2jMKTWGM1Fg6xi1g44912932496fququBL5vX'
 
 REDIRECT_URI ='http://localhost:5000/callback'
 AUTH_URL = 'https://accounts.spotify.com/authorize'
-TOKEN_URL = 'https://accounts.spotify.con/api/token'
+TOKEN_URL = 'https://accounts.spotify.com/api/token'
 API_BASE_URL = 'https://api.spotify.com/v1/'
 
 # root
@@ -22,13 +23,13 @@ def index():
 
 @app.route('/login')
 def login():
-    scope ='user-read-private user-read-email'
+    scope ='user-read-private user-read-email user-top-read'
 
-    params ={
+    params = {
         'client_id' :CLIENT_ID,
         'response_type': 'code',
         'scope': scope,
-        'redirect_uri' : REDIRECT_URI,
+        'redirect_uri': REDIRECT_URI,
         'show_dialog': True
     }
 
@@ -56,7 +57,7 @@ def callback():
         session['expires_at'] =  datetime.now().timestamp() + token_info['expires_in']
         return redirect('/playlists')    
 
-@app.route('/playists')
+@app.route('/playlists')
 def get_playlist():
     if 'access_token' not in session:
         return redirect('/login')
@@ -68,10 +69,16 @@ def get_playlist():
         'Authorization' : f"Bearer {session['access_token']}"
     }
 
-    response = requests.get(API_BASE_URL + 'me/playlists', headers=headers)
-    playlists = response.json()
-
-    return jsonify(playlists)
+    response = requests.get("https://api.spotify.com/v1/me/top/tracks?time_range=short_term&limit=1", headers=headers)
+    
+    songs = json.loads(response.content)["items"]
+    ids = []
+    #for idx, song in enumerate(songs):
+        #ids = 
+    
+    #ids = json.get()
+    
+    return jsonify(songs)
 
 @app.route('/refresh-token')
 def refresh_token():
