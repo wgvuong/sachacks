@@ -33,9 +33,9 @@ $ pip install config
 ```
 
 ## Setup 
-Prequisites: Python 3.10 or later is required to run this. You can download it from python.org__
-Installation: Clone our repository__
-Configuration:__
+Prequisites: Python 3.10 or later is required to run this. You can download it from python.org<br />
+Installation: Clone our repository<br />
+Configuration:<br />
 - Spofify API Credentials: Create a Spotify Developer account and register your application to get the client ID and client secret.Set these values in your configuration file or as environment variables.
 - Config File: Adjust the config.py file with your configuration settings.
 
