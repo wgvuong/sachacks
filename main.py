@@ -69,16 +69,19 @@ def get_playlist():
         'Authorization' : f"Bearer {session['access_token']}"
     }
 
-    response = requests.get("https://api.spotify.com/v1/me/top/tracks?time_range=short_term&limit=1", headers=headers)
+    response = requests.get("https://api.spotify.com/v1/me/top/tracks?time_range=short_term&limit=5", headers=headers)
     
     songs = json.loads(response.content)["items"]
     ids = []
-    #for idx, song in enumerate(songs):
-        #ids = 
+    for idx, song in enumerate(songs):
+        ids.append(song["id"])
     
-    #ids = json.get()
-    
-    return jsonify(songs)
+    id_string = f"{ids[0]},{ids[1]},{ids[2]},{ids[3]},{ids[4]}"
+    song_response = requests.get("https://api.spotify.com/v1/audio-features?ids=" + id_string, headers=headers)
+    song_data = song_response.json()
+
+    return jsonify(song_data)
+
 
 @app.route('/refresh-token')
 def refresh_token():
