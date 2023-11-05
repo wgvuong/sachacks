@@ -14,8 +14,8 @@ The web application uses the Spotify API to analyze your top songs of the last 6
 Project is created with:
 - Visual Studio Code
 - HTML and CSS
-- Python 3.10, Flask
-- Python API, OAuth 2.0
+- Python 3.10 and Flask
+- Python API and OAuth 2.0
   
 ## Dependencies
 Ensure you have the following dependencies installed using 'pip'
