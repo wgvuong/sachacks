@@ -1,11 +1,11 @@
-from datetime import datetime
-from flask import Flask, redirect, request, jsonify, session
+from datetime import datetime, timedelta
+from flask import Flask, redirect, request, jsonify, session, render_template
 import requests
 import urllib.parse
 import json
 
-CLIENT_ID = "7a34c6c3e57349f5a01d4e6646d9fd44"
-CLIENT_SECRET = "297871bf6b1642b4b884977ac8385dc9"
+CLIENT_ID = "df434140a3534ccd96cd05cc1c0fde82"
+CLIENT_SECRET = "647ad0bebb6042b48c0f82aaf02be283"
 
 app = Flask(__name__)
 app.secret_key = '36zRc2jMKTWGM1Fg6xi1g6fququBL5vX'
@@ -20,8 +20,7 @@ ids = []
 # root
 @app.route('/')
 def index():
-    return "Welcome to my spotify app <a href='/login'> Login with Spotify </a>"
-
+    return render_template("index.html")
 
 @app.route('/login')
 def login():
@@ -57,10 +56,10 @@ def callback():
         session['access_token'] = token_info['access_token']
         session['refresh_token'] = token_info['refresh_token']
         session['expires_at'] =  datetime.now().timestamp() + token_info['expires_in']
-        # return redirect('/playlists')    
+        # return redirect('/results')    
         return redirect('/top') 
 
-@app.route('/playlists')
+@app.route('/results')
 def get_playlist():
     if 'access_token' not in session:
         return redirect('/login')
@@ -72,7 +71,7 @@ def get_playlist():
         'Authorization' : f"Bearer {session['access_token']}"
     }
 
-    response = requests.get(API_BASE_URL + 'me/playlists', headers=headers)
+    response = requests.get(API_BASE_URL + 'me/results', headers=headers)
     playlists = response.json()
 
     return jsonify(playlists)
@@ -117,9 +116,24 @@ def get_top_tracks():
         traits[key] = traits[key] / 10
     traits['loudness'] = (1 - (traits['loudness']) / 60)*0.75 #nerfed
     personality = max(traits, key=traits.get)
-    #return json.dumps(personality)
-    return json.dumps(traits)
-    # return jsonify(song_data)
+    
+    match personality:
+        case 'acousticness':
+            return render_template("results.html", image_path="")
+        case 'danceability':
+            return render_template("results.html", image_path="")
+        case 'energy':
+            return render_template("results.html", image_path="")
+        case 'instrumentalness':
+            return render_template("results.html", image_path="")
+        case 'liveness':
+            return render_template("results.html", image_path="")
+        case 'loudness':
+            return render_template("results.html", image_path="")
+        case 'speechiness':
+            return render_template("results.html", image_path="")
+        case 'valence':
+            return render_template("results.html", image_path="")
 
 @app.route('/refresh-token')
 def refresh_token():
@@ -138,7 +152,7 @@ def refresh_token():
         new_token_info = response.json
         session['access_token'] = new_token_info['access_token']
         session['expires_at'] =  datetime.now().timestamp() + new_token_info['expires_in']
-        return redirect('/playlists')
+        return redirect('/results')
 
 if __name__ == "__main__":
     app.run(host = '0.0.0.0', debug=True)
