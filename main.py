@@ -1,11 +1,11 @@
 from datetime import datetime
-from flask import Flask, redirect, request, jsonify, session, render_template
+from flask import Flask, redirect, request, jsonify, session
 import requests
 import urllib.parse
 import json
 
-CLIENT_ID = "07be14574d2f46af9d2ae634d535e5e3"
-CLIENT_SECRET = "efb97abf85834afbb323179a9f53d401"
+CLIENT_ID = "7a34c6c3e57349f5a01d4e6646d9fd44"
+CLIENT_SECRET = "297871bf6b1642b4b884977ac8385dc9"
 
 app = Flask(__name__)
 app.secret_key = '36zRc2jMKTWGM1Fg6xi1g6fququBL5vX'
@@ -20,7 +20,7 @@ ids = []
 # root
 @app.route('/')
 def index():
-    return render_template("index.html")
+    return "Welcome to my spotify app <a href='/login'> Login with Spotify </a>"
 
 
 @app.route('/login')
@@ -89,14 +89,14 @@ def get_top_tracks():
         'Authorization' : f"Bearer {session['access_token']}"
     }
 
-    response = requests.get("https://api.spotify.com/v1/me/top/tracks?time_range=short_term&limit=5", headers=headers)
+    response = requests.get("https://api.spotify.com/v1/me/top/tracks?time_range=medium_term&limit=10", headers=headers)
     
     songs = json.loads(response.content)["items"]
     ids = []
     for idx, song in enumerate(songs):
         ids.append(song["id"])
     
-    id_string = f"{ids[0]},{ids[1]},{ids[2]},{ids[3]},{ids[4]}"
+    id_string = f"{ids[0]},{ids[1]},{ids[2]},{ids[3]},{ids[4]},{ids[5]},{ids[6]},{ids[7]},{ids[8]},{ids[9]}"
     song_response = requests.get("https://api.spotify.com/v1/audio-features?ids=" + id_string, headers=headers)
     song_data = song_response.json()
 
@@ -107,14 +107,17 @@ def get_top_tracks():
               'liveness': 0.0, 
               'loudness': 0.0,
               'speechiness': 0.0, 
-              'tempo': 0.0, 
               'valence': 0.0
             }
     
     for idx, feature in enumerate(song_data['audio_features']):
         for key in traits:
-            traits[key] += feature[key]
-
+            traits[key] += abs(feature[key])
+    for key in traits:
+        traits[key] = traits[key] / 10
+    traits['loudness'] = (1 - (traits['loudness']) / 60)*0.75 #nerfed
+    personality = max(traits, key=traits.get)
+    #return json.dumps(personality)
     return json.dumps(traits)
     # return jsonify(song_data)
 
