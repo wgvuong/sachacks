@@ -8,7 +8,7 @@ Spotify Data Visualizer Web App developed for SacHacks but Andrew Tri Tran, Kell
 * [Setup](#setup)
    
 ## General Info
-This project is a react application of a weather app taken from https://openweathermap.org's API. It displays an image and search bar on the left hand side and the current forecast along with the upcoming day ahead on the right hand side. This weather app uses React useState for state management, react-icons for styling, moment for parsing data objects, and environment variables.
+The web application uses the Spotify API to analyze your top songs of the last 6 months to determine what personality-based Smiski matches your music taste! Intaking the song attributes of your top listens, we assign you a Smiski based on your most defining feature from your music. It is our unique approach to building a data visualizer from Spotify.
 
 ## Technologies
 Project is created with:
