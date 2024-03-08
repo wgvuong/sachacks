@@ -1,5 +1,5 @@
 # sachacks - Smiskify
-Spotify Data Visualizer Web App developed for SacHacks but Andrew Tri Tran, Kelly Phan, Ryan Hang, and William Vuong
+Spotify Data Visualizer Web App developed for SacHacks by Andrew Tri Tran, Kelly Phan, Ryan Hang, and William Vuong
 
 ##### Table of Contents  
 * [General Info](#general-info)  
